@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+
+       
+body {
+	background-color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px; 
+	color: #000;
+}
+
+a:link, a:visited {
+	color: #4682b4;
+}
+
+a:hover {
+	color: #4169e1;
+}
+
+#main	{
+	width: 800px;
+	height: 600px;
+  border: 1px solid #ccc;
+}
+
+    </style>
+    
+    <!-- lib/packages-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.2/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+   <body>
+     <!-- prepare a DOM container with height and width -->
+      <div id="main" style= "width: 800px; 
+                             height:600px;">
+      </div>
+        
+    <script>
+// Initialize echarts based on prepared dom
+var myChart = echarts.init(document.getElementById('main'));
+
+// Specify configurations and data chart 
+myChart.showLoading();
+$.get('https://raw.githubusercontent.com/gnaomi0/maps/main/world.json', function (wdJson) {
+myChart.hideLoading();
+// register map
+echarts.registerMap('World', wdJson);
+// add the others informations of map
+option = {
+backgroundColor: "#e0f3f8",
+title : {
+    text: 'Echarts World Map',
+    x: 'center',
+    textStyle: {
+    color: '#000000'
+    }
+},
+series: [ 
+    {
+        name: 'World map',
+        type: 'map',
+        roam: true, // show state name when mouse course moves
+        mapType: 'World',
+         emphasis: {label: {
+            show: true // show state name when mouse course moves
+        }
+    },
+      itemStyle: { // modify colors
+    normal: {
+        areaColor: '#d9ef8b',
+        borderColor: '#111'
+    },
+    emphasis: {
+        areaColor: '#1a9850'
+    }
+}
+}],
+
+
+};
+myChart.setOption(option);
+
+});
+</script>
+    </body>
+    </html>
